@@ -9,11 +9,14 @@ datasource db {
 
 model User {
   id          String       @id @default(uuid())
-  name        String
+  userName    String       @unique
+  firstName   String
+  lastName    String
   image       String?
   email       String       @unique
   password    String
   verified    Boolean      @default(false)
+  createdAt   DateTime     @default(now())
   Order       Order[]
   UserAddress UserAddress?
 }
