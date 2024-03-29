@@ -1,9 +1,7 @@
 import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
-import { SingularModule } from './singular/singular.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -11,9 +9,7 @@ import { SingularModule } from './singular/singular.module';
       isGlobal: true,
     }),
     UserModule,
-    SingularModule,
+    AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
