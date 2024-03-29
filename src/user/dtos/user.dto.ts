@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { Exclude, Type, Expose } from 'class-transformer';
 import {
   IsDate,
   IsNotEmpty,
@@ -11,6 +11,7 @@ import {
   IsUrl,
 } from 'class-validator';
 
+@Exclude()
 export class UserDto {
   @ApiProperty({
     name: 'id',
@@ -20,6 +21,7 @@ export class UserDto {
     example: 'e6035de7-0770-48c3-8811-b59e07ad44a8',
   })
   @IsNotEmpty()
+  @Expose()
   @IsUUID()
   id: string;
 
@@ -31,6 +33,7 @@ export class UserDto {
     example: 'diegorost',
   })
   @IsNotEmpty()
+  @Expose()
   @IsString()
   userName: string;
 
@@ -42,6 +45,7 @@ export class UserDto {
     example: 'diego',
   })
   @IsNotEmpty()
+  @Expose()
   @IsString()
   firstName: string;
 
@@ -53,6 +57,7 @@ export class UserDto {
     example: 'rost',
   })
   @IsNotEmpty()
+  @Expose()
   @IsString()
   lastName: string;
 
@@ -64,6 +69,7 @@ export class UserDto {
     example: 'diegorost@gmail.com',
   })
   @IsNotEmpty()
+  @Expose()
   @IsEmail()
   email: string;
 
@@ -100,8 +106,9 @@ export class UserDto {
       'https://rockfm-cdnmed.rockfm.fm/resources/jpg/1/2/1627558630021.jpg',
   })
   @IsOptional()
+  @Expose()
   @IsUrl()
-  image?: string;
+  image?: string | null;
 
   @ApiProperty({
     name: 'createdAt',
