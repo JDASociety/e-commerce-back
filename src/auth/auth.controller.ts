@@ -182,7 +182,7 @@ export class AuthController {
 
   @Get('refresh-token')
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  @ApiBearerAuth('Authorization')
   @ApiOperation({
     summary: 'Refresca el token',
     description: 'Refresca el token de acceso',
