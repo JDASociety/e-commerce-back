@@ -8,7 +8,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiTags,
+  ApiBearerAuth,
+  ApiResponse,
+} from '@nestjs/swagger';
 import { plainToInstance } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
 import { UserDto, UserLoginDto } from 'src/user/dtos';
@@ -127,21 +133,36 @@ export class AuthController {
   }
 
   @Get('refresh-token')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Refresca el token',
     description: 'Refresca el token de acceso',
   })
-  @ApiBody({
-    description: 'Login de usuario en la aplicacion',
-    examples: {
-      examples1: {
-        value: {
-          token: 'asdfasdf',
+  @ApiResponse({
+    status: 200,
+    description: 'Token refrescado correctamente',
+    schema: {
+      properties: {
+        user: {
+          type: 'object',
+          properties: {
+            id: { type: 'number' },
+            firstName: { type: 'string' },
+            lastName: { type: 'string' },
+            userName: { type: 'string' },
+            email: { type: 'string' },
+            image: { type: 'string' },
+          },
         },
+        token: { type: 'string' },
       },
     },
   })
-  @UseGuards(JwtAuthGuard)
+  @ApiResponse({
+    status: 401,
+    description: 'No autorizado',
+  })
   async refreshToken(@UserDecorator() userData: UserToken) {
     const user = await this.userService.getUserByEmail(userData.email);
 
