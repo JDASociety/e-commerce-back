@@ -9,6 +9,7 @@ async function bootstrap() {
     .setTitle('Ecommerce API')
     .setDescription('Api para el ecommerce JDASIAC')
     .setVersion('0.1')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
