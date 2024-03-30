@@ -55,6 +55,31 @@ export class AuthController {
       },
     },
   })
+  @ApiResponse({
+    status: 200,
+    description: 'Usuario registrado con éxito',
+    schema: {
+      properties: {
+        id: { type: 'number' },
+        firstName: { type: 'string' },
+        lastName: { type: 'string' },
+        userName: { type: 'string' },
+        email: { type: 'string' },
+        image: { type: 'string' },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Usuario ya registrado',
+    schema: {
+      type: 'object',
+      properties: {
+        message: { type: 'string' },
+        statusCode: { type: 'number', default: 409 },
+      },
+    },
+  })
   async register(@Body() userData: User) {
     const user = await this.authService.createUser(userData);
 
@@ -92,6 +117,29 @@ export class AuthController {
           userName: 'elm',
           password: '123467',
         },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Usuario verificado',
+    schema: {
+      type: 'object',
+      properties: {
+        userName: { type: 'string' },
+        email: { type: 'string' },
+        password: { type: 'string' },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Usuario no verificado',
+    schema: {
+      type: 'object',
+      properties: {
+        statusCode: { type: 'number', default: 400 },
+        message: { type: 'string' },
       },
     },
   })
@@ -162,6 +210,13 @@ export class AuthController {
   @ApiResponse({
     status: 401,
     description: 'No autorizado',
+    schema: {
+      type: 'object',
+      properties: {
+        message: { type: 'string' },
+        statusCode: { type: 'number', default: 401 },
+      },
+    },
   })
   async refreshToken(@UserDecorator() userData: UserToken) {
     const user = await this.userService.getUserByEmail(userData.email);
