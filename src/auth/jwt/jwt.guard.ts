@@ -12,22 +12,24 @@ export class AuthException extends HttpException {
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
   handleRequest(err, user, info) {
-    if (!err && user) {
-      return user;
+    if (err || !user) {
+      if (info && info.name === 'TokenExpiredError') {
+        throw new AuthException('Tu token ha expirado.');
+      }
+
+      if (info && info.name === 'JsonWebTokenError') {
+        throw new AuthException('El JWT es inválido.');
+      }
+
+      if (!info || !user) {
+        throw new AuthException(
+          'El JWT no ha sido proporcionado o es inválido',
+        );
+      }
+
+      throw err || new UnauthorizedException();
     }
 
-    if (!info) {
-      throw new AuthException('El JWT no ha sido proporcionado o es inválido');
-    }
-
-    if (info.name === 'TokenExpiredError') {
-      throw new AuthException('Tu token ha expirado');
-    }
-
-    if (info.name === 'JsonWebTokenError') {
-      throw new AuthException('El JWT es inválido');
-    }
-
-    throw err || new UnauthorizedException();
+    return user;
   }
 }
