@@ -4,7 +4,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { User, Prisma } from '@prisma/client';
-import * as bcrypt from 'bcrypt';
+import { bcryptAdapter } from '../config/bcrypt.adapter';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserService } from 'src/user/user.service';
 
@@ -21,7 +21,7 @@ export class AuthService {
     const isExistEmail = await this.userService.getUserByEmail(email);
 
     if (isExistEmail) {
-      throw new ConflictException('Ya existe Un usuario con ese correo');
+      throw new ConflictException('Ya existe un usuario con ese correo');
     }
 
     const isExistUserName = await this.userService.getUserByUserName(userName);
@@ -32,7 +32,7 @@ export class AuthService {
       );
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcryptAdapter.hash(password);
 
     return this.prisma.user.create({
       data: {
