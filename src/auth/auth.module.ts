@@ -7,12 +7,14 @@ import { UserModule } from 'src/user/user.module';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { JwtStrategy } from './jwt/jwt.strategy';
 import { JwtAuthGuard } from './jwt/jwt.guard';
+import { BcryptAdapter } from 'src/common/config/bcrypt.adapter';
 
 @Module({
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, JwtAuthGuard],
   imports: [
     UserModule,
+    BcryptAdapter,
     PrismaModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],

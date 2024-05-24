@@ -4,9 +4,9 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { User, Prisma } from '@prisma/client';
-import { bcryptAdapter } from '../config/bcrypt.adapter';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserService } from 'src/user/user.service';
+import { BcryptAdapter } from 'src/common/config/bcrypt.adapter';
 
 @Injectable()
 export class AuthService {
@@ -32,7 +32,7 @@ export class AuthService {
       );
     }
 
-    const hashedPassword = await bcryptAdapter.hash(password);
+    const hashedPassword = await BcryptAdapter.hash(password);
 
     return this.prisma.user.create({
       data: {
