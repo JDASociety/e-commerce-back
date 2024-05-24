@@ -7,6 +7,7 @@ import { OrderModule } from './order/order.module';
 import { SeedModule } from './seed/seed.module';
 import { AdminModule } from './admin/admin.module';
 import { PaymentModule } from './payment/payment.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { PaymentModule } from './payment/payment.module';
     SeedModule,
     AdminModule,
     PaymentModule,
+    CommonModule,
   ],
 })
 export class AppModule {}

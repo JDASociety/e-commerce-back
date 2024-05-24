@@ -23,7 +23,7 @@ import { UserService } from 'src/user/user.service';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt/jwt.guard';
 import { User as UserDecorator } from 'src/user/decorator';
-import { UserToken } from './interfaces';
+import { UserToken } from './interfaces/user-token.interface';
 
 @Controller('auth')
 @ApiTags('Autenticación')
